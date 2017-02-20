@@ -5,8 +5,12 @@
 ob_start();
 
 // Enable sessions
-// TODO add configurations
-session_start();
+$configurations = array(
+  'use_only_cookies' => true,
+  'cookie_lifetime' => 86400,
+  'cookie_httponly' => true
+);
+session_start($configurations);
 
 // Turns off any browser built-in XSS protections
 // LEAVE THIS LINE IN WHILE YOU ARE LEARNING
