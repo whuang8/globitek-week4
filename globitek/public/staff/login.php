@@ -35,15 +35,16 @@ if(is_post_request()) {
       if($password === $master_password) {
         // Username found, password matches
         log_in_user($user);
+        // Regenerate session id
+        after_successful_login();
         // Redirect to the staff menu after login
         redirect_to('index.php');
       } else {
-        // Username found, but password does not match.
-        $errors[] = ""; // TODO write an error message
+        $errors[] = "Username or password incorrect.";
       }
     } else {
       // No username found
-      $errors[] = ""; // TODO write an error message
+      $errors[] = "Username or password incorrect.";
     }
   }
 }
