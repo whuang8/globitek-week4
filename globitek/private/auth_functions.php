@@ -7,6 +7,7 @@
     $_SESSION['user_id'] = $user['id'];
     // Store last login time in session
     $_SESSION['last_login'] = time();
+    //$_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT']
     return true;
   }
 
@@ -48,7 +49,7 @@
   // Inspects the session to see if it should be considered valid.
   function session_is_valid() {
     if(!last_login_is_recent()) { return false; }
-    // if(!user_agent_matches_session()) { return false; }
+      //if(!user_agent_matches_session()) { return false; }
     return true;
   }
 
