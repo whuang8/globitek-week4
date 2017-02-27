@@ -48,13 +48,13 @@ The following **required** functionality is completed:
 
 The following advanced user stories are optional:
 
-* [ ]  Bonus Objective 1: Identify security flaw in Objective #4 (requiring login on staff pages)
-* [ ]  Identify the security principal not being followed.
-* [ ]  Write a short description of how the code could be modified to be more secure.
+* [x]  Bonus Objective 1: Identify security flaw in Objective #4 (requiring login on staff pages)
+* [x]  Identify the security principal not being followed.
+* [x]  Write a short description of how the code could be modified to be more secure.
 
-* [ ] Bonus Objective 2: Add CSRF protections to all forms in the staff directory
+* [x] Bonus Objective 2: Add CSRF protections to all forms in the staff directory
 
-* [ ]  Bonus Objective 3: CSRF tokens only valid for 10 minutes.
+* [x]  Bonus Objective 3: CSRF tokens only valid for 10 minutes.
 
 * [ ]  Bonus Objective 4: Sessions are valid only if user-agent string matches previous value.
 
@@ -75,7 +75,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+The security principal that is not being followed in Objective #4 is the principal of least privilege. This system automatically grants every logged-in user access to every action in the CMS. The code should be changed to grant staff members only limited actions such as editing their own information. Destructive actions should require a certain user role, such as admin.
 
 ## License
 

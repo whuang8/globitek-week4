@@ -20,12 +20,15 @@ if(is_post_request()) {
   if(isset($_POST['phone'])) { $salesperson['phone'] = $_POST['phone']; }
   if(isset($_POST['email'])) { $salesperson['email'] = $_POST['email']; }
 
-
-  $result = update_salesperson($salesperson);
-  if($result === true) {
-    redirect_to('show.php?id=' . $salesperson['id']);
+  if (csrf_token_is_valid()) {
+      $result = update_salesperson($salesperson);
+      if($result === true) {
+        redirect_to('show.php?id=' . $salesperson['id']);
+      } else {
+        $errors = $result;
+      }
   } else {
-    $errors = $result;
+    $errors[] = "Invalid request.";
   }
 }
 ?>
@@ -40,6 +43,7 @@ if(is_post_request()) {
   <?php echo display_errors($errors); ?>
 
   <form action="edit.php?id=<?php echo h(u($salesperson['id'])); ?>" method="post">
+    <?php echo csrf_token_tag(); ?>
     First name:<br />
     <input type="text" name="first_name" value="<?php echo h($salesperson['first_name']); ?>" /><br />
     Last name:<br />
