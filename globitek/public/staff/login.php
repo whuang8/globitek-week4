@@ -17,35 +17,39 @@ if(is_post_request()) {
   if(isset($_POST['username'])) { $username = $_POST['username']; }
   if(isset($_POST['password'])) { $password = $_POST['password']; }
 
-  // Validations
-  if (is_blank($username)) {
-    $errors[] = "Username cannot be blank.";
-  }
-  if (is_blank($password)) {
-    $errors[] = "Password cannot be blank.";
-  }
+  if (csrf_token_is_valid()) {
+    // Validations
+    if (is_blank($username)) {
+      $errors[] = "Username cannot be blank.";
+    }
+    if (is_blank($password)) {
+      $errors[] = "Password cannot be blank.";
+    }
 
-  // If there were no errors, submit data to database
-  if (empty($errors)) {
+    // If there were no errors, submit data to database
+    if (empty($errors)) {
 
-    $users_result = find_users_by_username($username);
-    // No loop, only one result
-    $user = db_fetch_assoc($users_result);
-    if($user) {
-      if($password === $master_password) {
-        // Username found, password matches
-        log_in_user($user);
-        // Regenerate session id
-        after_successful_login();
-        // Redirect to the staff menu after login
-        redirect_to('index.php');
+      $users_result = find_users_by_username($username);
+      // No loop, only one result
+      $user = db_fetch_assoc($users_result);
+      if($user) {
+        if($password === $master_password) {
+          // Username found, password matches
+          log_in_user($user);
+          // Regenerate session id
+          after_successful_login();
+          // Redirect to the staff menu after login
+          redirect_to('index.php');
+        } else {
+          $errors[] = "Username or password incorrect.";
+        }
       } else {
+        // No username found
         $errors[] = "Username or password incorrect.";
       }
-    } else {
-      // No username found
-      $errors[] = "Username or password incorrect.";
     }
+  } else {
+    $errors[] = "Invalid request.";
   }
 }
 
@@ -64,6 +68,7 @@ if(is_post_request()) {
   <?php echo display_errors($errors); ?>
 
   <form action="login.php" method="post">
+    <?php echo csrf_token_tag(); ?>
     Username:<br />
     <input type="text" name="username" value="<?php echo $username; ?>" /><br />
     Password:<br />
